@@ -1,4 +1,4 @@
-import sqlite3
+from cs50 import SQL
 
 
 database_path = r"./gacha.db";
@@ -7,10 +7,12 @@ database_path = r"./gacha.db";
 def main():
     print("Type user name")
     user_name = str(input())
-    connection = sqlite3.connect(database_path)
-    cur = connection.cursor()
-    cur.execute('SELECT * FROM always WHERE user_name = \'' + user_name + '\'')
-    print(cur.rowcount)
+    db = SQL('sqlite:///gacha.db')
+    rows = db.execute('SELECT * FROM always WHERE user_name = ?', user_name)
+    if len(rows) ==1:
+        print(rows[0])
+    else:
+        print('not found')
     return
 
 if __name__ == "__main__":
